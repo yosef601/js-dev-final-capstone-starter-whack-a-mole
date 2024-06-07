@@ -3,12 +3,13 @@ const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 const score  = document.querySelector('#score'); 
 const timerDisplay  = document.querySelector('#timer');
+const gameOverMessage = document.querySelector('#gameOverMessage');
 
 let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
-let difficulty = "hard";
+let difficulty = 'hard';
 
 /**
  * Generates a random integer within a range.
@@ -109,6 +110,7 @@ function gameOver() {
 *
 */
 function showUp() {
+  gameOverMessage.classList.toggle('hide');
   let delay =  setDelay(difficulty); 
   const hole = chooseHole(holes); 
   return showAndHide(hole, delay);
@@ -163,7 +165,7 @@ function updateScore() {
 * This function clears the score by setting `points = 0`. It also updates
 * the board using `score.textContent = points`. The function should return
 * the points.
-*
+*aa
 */
 function clearScore() {
   points = 0;
@@ -204,7 +206,6 @@ function startTimer() {
 *
 */
 function whack(event) {
-  event.preventDefault();
   updateScore();
   return points;
 }
@@ -239,10 +240,8 @@ function setDuration(duration) {
 function stopGame(){
   // stopAudio(song);  //optional
   timerDisplay.textContent = time;
-  alert("GAME OVER");
-  return "game stopped";
+  return 'game stopped';
 }
-
 
 /**
 *
@@ -252,13 +251,13 @@ function stopGame(){
 */
 function startGame(){
   setEventListeners();
-  setDuration(20);
+  setDuration(10);
   showUp();
   startTimer();
-  return "game started";
+  return 'game started';
 }
 
-startButton.addEventListener("click", startGame);
+startButton.addEventListener('click', startGame);
 
 
 // Please do not modify the code below.
