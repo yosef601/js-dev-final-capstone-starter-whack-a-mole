@@ -105,3 +105,7 @@ h2 {
 .score-container h2 {
   margin: 10px; /* Adds horizontal space between the h2 elements */
 }
+
+body {
+  cursor: url('/src/res/cuimg.jpg'), auto;
+}
