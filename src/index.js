@@ -5,6 +5,8 @@ const score  = document.querySelector('#score');
 const HScore  = document.querySelector('#Hscore'); 
 const timerDisplay  = document.querySelector('#timer');
 const gameOverMessage = document.querySelector('#gameOverMessage');
+const audioHit = new Audio("https://github.com/gabrielsanchez/erddiagram/blob/main/hit.mp3?raw=true");
+const song = new Audio("https://github.com/gabrielsanchez/erddiagram/blob/main/molesong.mp3?raw=true");
 
 let time = 0;
 let timer;
@@ -210,6 +212,7 @@ function startTimer() {
 */
 function whack(event) {
   updateScore();
+  playAudio(audioHit);
   return points;
 }
 
@@ -241,15 +244,27 @@ function setDuration(duration) {
 *
 */
 function stopGame(){
-  // stopAudio(song);  //optional
   if(points > HsPoints){
     HsPoints = points;
     HScore.textContent = HsPoints;
   }
   timerDisplay.textContent = time;
   gameOverMessage.style.display = 'block'; // Corrected line
-
+  stopAudio(song);
   return 'game stopped';
+}
+
+function playAudio(audioObject) {
+  audioObject.play();
+}
+
+function loopAudio(audioObject) {
+  audioObject.loop = true;
+  playAudio(audioObject);
+}
+
+function stopAudio(audioObject) {
+  audioObject.pause();
 }
 
 /**
@@ -259,6 +274,7 @@ function stopGame(){
 *
 */
 function startGame(){
+  playAudio(song);
   gameOverMessage.style.display = 'none'; // Corrected line
   setEventListeners();
   setDuration(10);
