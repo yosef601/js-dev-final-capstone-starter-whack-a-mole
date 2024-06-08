@@ -2,6 +2,7 @@ const holes = document.querySelectorAll('.hole');
 const moles = document.querySelectorAll('.mole');
 const startButton = document.querySelector('#start');
 const score  = document.querySelector('#score'); 
+const HScore  = document.querySelector('#Hscore'); 
 const timerDisplay  = document.querySelector('#timer');
 const gameOverMessage = document.querySelector('#gameOverMessage');
 
@@ -9,6 +10,7 @@ let time = 0;
 let timer;
 let lastHole = 0;
 let points = 0;
+let HsPoints = 0;
 let difficulty = 'hard';
 
 /**
@@ -40,15 +42,13 @@ function randomInteger(min, max) {
  *
  */
 function setDelay(difficulty) {
-  if(difficulty === "easy"){
-   return 1500;
-  }
-  if(difficulty === "normal"){
+  if(difficulty === "easy") {
+    return 1500;
+  } else if(difficulty === "normal") {
     return 1000;
+  } else if(difficulty === "hard") {
+    return randomInteger(1000, 1200);
   }
-  if(difficulty === "hard"){
-    return randomInteger(1000,1200); 
-   }
 }
 
 /**
@@ -67,14 +67,13 @@ function setDelay(difficulty) {
  */
 function chooseHole(holes) {
   const idx = randomInteger(0,8); 
-  const hole = holes[idx];
-  if(hole == lastHole){
+  const pickedHole = holes[idx];
+  if(pickedHole === lastHole){
     chooseHole(holes);
   } else {
-    lastHole = hole;
-    return hole;
+    lastHole = pickedHole;
+    return pickedHole;
   }
-
 }
 
 /**
@@ -140,6 +139,10 @@ function showAndHide(hole, delay){
 *
 */
 function toggleVisibility(hole){
+  if (!hole) {
+    console.error("Invalid element passed to toggleVisibility");
+    return null;
+  }
   hole.classList.toggle("show");
   return hole;
 }
@@ -239,7 +242,13 @@ function setDuration(duration) {
 */
 function stopGame(){
   // stopAudio(song);  //optional
+  if(points > HsPoints){
+    HsPoints = points;
+    HScore.textContent = HsPoints;
+  }
   timerDisplay.textContent = time;
+  gameOverMessage.style.display = 'block'; // Corrected line
+
   return 'game stopped';
 }
 
@@ -250,6 +259,7 @@ function stopGame(){
 *
 */
 function startGame(){
+  gameOverMessage.style.display = 'none'; // Corrected line
   setEventListeners();
   setDuration(10);
   showUp();
